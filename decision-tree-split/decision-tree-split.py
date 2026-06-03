@@ -36,32 +36,29 @@ def decision_tree_split(X, y):
     best_threshold = None
     min_gini = float('inf')
     
-    # 1. Loop through each feature
     for feature_idx in range(n_features):
         feature_values = X[:, feature_idx]
         
-        # Sort unique values to find consecutive midpoints
         unique_vals = np.sort(np.unique(feature_values))
         
-        # 2. Try thresholds at the midpoint between consecutive unique values
+        
         for i in range(1, len(unique_vals)):
             threshold = (unique_vals[i-1] + unique_vals[i]) / 2.0
             
-            # Split the data based on the threshold
+        
             left_mask = feature_values <= threshold
             right_mask = feature_values > threshold
             
             y_left = y[left_mask]
             y_right = y[right_mask]
             
-            # 3. Weight the child Gini impurities by the fraction of samples
+            
             current_gini = gini_impurity(y_left, y_right)
             
-            # Update the best split if this one is better
+          
             if current_gini < min_gini:
                 min_gini = current_gini
                 best_feature = feature_idx
-                best_threshold = float(threshold) # Ensure it's a standard float
+                best_threshold = float(threshold)
                 
-    # 4. Return as a list
     return [best_feature, best_threshold]
